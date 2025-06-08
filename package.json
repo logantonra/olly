@@ -1,0 +1,38 @@
+{
+  "name": "daily-dash",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^5.6.2",
+    "@types/node": "18.11.18",
+    "@types/react": "18.2.24",
+    "@types/react-dom": "18.2.8",
+    "classnames": "^2.3.2",
+    "next": "14.1.0",
+    "next-auth": "5.0.0-beta.25",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "sst": "3.10.8",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.16",
+    "eslint": "9.28.0",
+    "eslint-config-next": "15.3.3",
+    "postcss": "^8.4.31",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.2.8",
+    "tailwindcss": "^3.3.3"
+  },
+  "packageManager": "pnpm@9.3.0+sha512.ee7b93e0c2bd11409c6424f92b866f31d3ea1bef5fbe47d3c7500cdc3c9668833d2e55681ad66df5b640c61fa9dc25d546efa54d76d7f8bf54b13614ac293631"
+}
