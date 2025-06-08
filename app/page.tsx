@@ -1,4 +1,6 @@
 "use client";
+import { WeatherBackground } from "@/components/mainpage/weatherBackground";
+import { WeatherDisplay } from "@/components/mainpage/weatherDisplay";
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { Train, Cloud, MapPin, X, MessageCircle } from "lucide-react";
 
-// Mock data - in real implementation, these would come from APIs
+// Mock data
 const mockSubwayData = {
   "Union Sq-14 St": {
     "4": [2, 7, 12, 18],
@@ -46,7 +48,7 @@ const mockSubwayData = {
 const mockWeatherData = {
   current: {
     temp: 72,
-    condition: "partly-cloudy",
+    condition: "light-rain",
     description: "Partly cloudy with gentle breeze",
     icon: Cloud,
   },
@@ -72,16 +74,6 @@ const subwayColors = {
   Q: "#FCCC0A",
   R: "#FCCC0A",
   W: "#FCCC0A",
-};
-
-const weatherBackgrounds = {
-  sunny: "bg-gradient-to-br from-amber-300 via-orange-300 to-yellow-400",
-  "partly-cloudy": "bg-gradient-to-br from-blue-400 via-blue-300 to-cyan-300",
-  cloudy: "bg-gradient-to-br from-gray-400 via-gray-300 to-slate-300",
-  "light-rain": "bg-gradient-to-br from-slate-500 via-gray-400 to-blue-400",
-  rain: "bg-gradient-to-br from-slate-600 via-gray-500 to-blue-500",
-  snow: "bg-gradient-to-br from-slate-300 via-gray-200 to-blue-200",
-  thunderstorm: "bg-gradient-to-br from-slate-700 via-gray-600 to-purple-600",
 };
 
 export default function NYCGiftDisplay() {
@@ -168,41 +160,10 @@ export default function NYCGiftDisplay() {
   const unreadMessages = messages.filter((m) => !m.read);
   const currentMessage = unreadMessages[currentMessageIndex];
   const currentWeather = mockWeatherData.current;
-  const backgroundClass =
-    weatherBackgrounds[
-      currentWeather.condition as keyof typeof weatherBackgrounds
-    ];
 
   return (
-    <div className={`min-h-screen ${backgroundClass} relative overflow-hidden`}>
-      {/* Animated Weather Elements */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {currentWeather.condition === "sunny" && (
-          <div className="absolute right-20 top-10 h-32 w-32 animate-pulse rounded-full bg-yellow-200 opacity-30"></div>
-        )}
-        {currentWeather.condition === "partly-cloudy" && (
-          <>
-            <div className="animate-float absolute left-1/4 top-8 h-16 w-24 rounded-full bg-white opacity-40"></div>
-            <div className="animate-float-delayed absolute right-1/3 top-16 h-20 w-32 rounded-full bg-white opacity-30"></div>
-          </>
-        )}
-        {currentWeather.condition === "light-rain" && (
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="animate-rain absolute h-8 w-0.5 bg-blue-200 opacity-60"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${1 + Math.random()}s`,
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-      </div>
-
+    <>
+      <WeatherBackground />
       {/* Main Content */}
       <div className="relative z-10 flex h-screen items-center px-8">
         <div className="mx-auto flex w-full max-w-[1900px] items-center justify-between gap-8">
@@ -321,27 +282,7 @@ export default function NYCGiftDisplay() {
           </div>
 
           {/* Weather Section - Center & Prominent */}
-          <div className="flex-1 text-center">
-            <div className="text-white">
-              <div className="mb-4 flex items-center justify-center gap-4">
-                <currentWeather.icon className="h-16 w-16" />
-                <div className="text-7xl font-thin">{currentWeather.temp}°</div>
-              </div>
-              <div className="mb-6 text-xl font-light opacity-90">
-                {currentWeather.description}
-              </div>
-
-              {/* Hourly Forecast */}
-              <div className="flex justify-center gap-6">
-                {mockWeatherData.hourly.slice(0, 5).map((hour, i) => (
-                  <div key={i} className="text-center">
-                    <div className="mb-1 text-sm opacity-80">{hour.time}</div>
-                    <div className="text-lg font-medium">{hour.temp}°</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <WeatherDisplay />
 
           {/* Messages Section */}
           <div className="flex-shrink-0">
@@ -389,6 +330,6 @@ export default function NYCGiftDisplay() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
