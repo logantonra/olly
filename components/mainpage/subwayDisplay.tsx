@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Train, MapPin } from "lucide-react";
@@ -110,7 +110,23 @@ export function SubwayDisplay() {
       ),
     );
   };
-  // TODO: make the select a station not so ugly
+
+  const [times, setTimes] = useState<number[]>([]);
+
+  const stationId = "L01";
+  const direction = "S";
+  useEffect(() => {
+    const fetchTimes = async () => {
+      const res = await fetch(
+        `/api/stop-times?stationId=${stationId}&direction=${direction}`,
+      );
+      const data = await res.json();
+      setTimes(data.times || []);
+    };
+
+    fetchTimes();
+  }, [stationId, direction]);
+  console.log(times);
   return (
     <div className="flex-shrink-0">
       <Card className="border-white/20 bg-white/10 text-white backdrop-blur-md">
