@@ -13,20 +13,20 @@ import { LINES_BY_STATION } from "@/lib/trains/trainConfig";
 export async function getStopTimesForStation(
   stationId: string,
   direction: "N" | "S"
-): Promise<number[]> {
+): Promise<{ time: number; line: string }[]> {
   const stopId = `${stationId}${direction}`;
   const now = Math.floor(Date.now() / 1000);
   const lines = LINES_BY_STATION[stationId as keyof typeof LINES_BY_STATION] || [];
 
   const allFeeds = await Promise.allSettled(
-    lines.map((line) => getMTAFeed(line))
+    lines.map((line) => getMTAFeed(line).then((feed) => ({ line, feed })))
   );
 
-  const stopTimes: number[] = [];
+  const stopTimes: { time: number; line: string }[] = [];
 
   for (const result of allFeeds) {
     if (result.status !== "fulfilled") continue;
-    const feed = result.value;
+    const { line, feed } = result.value;
 
     for (const entity of feed.entity ?? []) {
       if (!entity.tripUpdate?.stopTimeUpdate) continue;
@@ -38,14 +38,14 @@ export async function getStopTimesForStation(
               ? stop.departure.time
               : stop.departure.time.toNumber?.();
           if (typeof time === "number" && time >= now) {
-            stopTimes.push(time);
+            stopTimes.push({ time, line });
           }
         }
       }
     }
   }
 
-  return stopTimes.sort((a, b) => a - b);
+  return stopTimes.sort((a, b) => a.time - b.time);
 }
 
 export async function getStopTimesForLine(

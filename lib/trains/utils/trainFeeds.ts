@@ -10,7 +10,8 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
  */
 export async function getMTAFeed(line: string): Promise<GtfsRealtimeBindings.transit_realtime.IFeedMessage> {
     const url = getTrainFeedUrl(line);
-  
+
+    // TODO: Add ~30 second caching here
     const response = await fetch(url, { cache: "no-store" });
   
     if (!response.ok) {
