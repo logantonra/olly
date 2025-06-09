@@ -31,6 +31,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/mainpage/sub_components"],
   "exclude": ["node_modules", "sst.config.ts"]
 }

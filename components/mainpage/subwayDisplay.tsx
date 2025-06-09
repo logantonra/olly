@@ -2,24 +2,11 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Train, MapPin } from "lucide-react";
+import { SUBWAY_COLORS } from "@/lib/trains/trainConfig";
+import { StationSelector } from "@/components/mainpage/sub_components/stationSelector";
+import { Station, StationSelectorProps } from "@/lib/trains/utils/types";
 
 const mockSubwayData = {
   "Union Sq-14 St": {
@@ -80,21 +67,6 @@ const mockSubwayData = {
   },
 };
 
-const subwayColors = {
-  "1": "#EE352E",
-  "2": "#EE352E",
-  "3": "#EE352E",
-  "4": "#00933C",
-  "5": "#00933C",
-  "6": "#00933C",
-  "7": "#B933AD",
-  L: "#A7A9AC",
-  N: "#FCCC0A",
-  Q: "#FCCC0A",
-  R: "#FCCC0A",
-  W: "#FCCC0A",
-};
-
 interface StationConfig {
   station: string;
   direction: "northbound" | "southbound";
@@ -105,7 +77,11 @@ export function SubwayDisplay() {
     { station: "Union Sq-14 St", direction: "northbound" },
     { station: "Times Sq-42 St", direction: "southbound" },
   ]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [selectedStations, setSelectedStations] = useState<Station[]>([
+    { name: "Union Sq-14 St", id: "L03", direction: "Northbound" },
+    { name: "Grand Central-42 St", id: "631", direction: "Southbound" },
+  ]);
 
   const getNextDepartures = (stationConfig: StationConfig) => {
     const stationData =
@@ -144,74 +120,10 @@ export function SubwayDisplay() {
               <Train className="h-5 w-5" />
               <h2 className="text-lg font-medium">Next Trains</h2>
             </div>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-white hover:bg-white/20"
-                >
-                  <MapPin className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Configure Stations</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-6">
-                  {stations.map((stationConfig, index) => (
-                    <div key={index} className="space-y-3">
-                      <Label className="text-base font-medium">
-                        Station {index + 1}
-                      </Label>
-                      <div className="space-y-2">
-                        <Select
-                          value={stationConfig.station}
-                          onValueChange={(value) =>
-                            updateStation(index, "station", value)
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select station" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Object.keys(mockSubwayData).map((station) => (
-                              <SelectItem key={station} value={station}>
-                                {station}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <Select
-                          value={stationConfig.direction}
-                          onValueChange={(value: "northbound" | "southbound") =>
-                            updateStation(index, "direction", value)
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="northbound">
-                              Northbound
-                            </SelectItem>
-                            <SelectItem value="southbound">
-                              Southbound
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  ))}
-                  <Button
-                    onClick={() => setIsDialogOpen(false)}
-                    className="mt-4 w-full"
-                  >
-                    Save Changes
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <StationSelector
+              selectedStations={selectedStations}
+              setSelectedStations={setSelectedStations}
+            ></StationSelector>
           </div>
 
           <div className="space-y-4">
@@ -231,11 +143,11 @@ export function SubwayDisplay() {
                       <Badge
                         style={{
                           backgroundColor:
-                            subwayColors[
-                              departure.line as keyof typeof subwayColors
+                            SUBWAY_COLORS[
+                              departure.line as keyof typeof SUBWAY_COLORS
                             ],
                         }}
-                        className="px-2 py-1 text-xs font-medium text-white"
+                        className="flex h-6 w-6 items-center justify-center rounded-full p-0 text-xs font-medium text-white"
                       >
                         {departure.line}
                       </Badge>

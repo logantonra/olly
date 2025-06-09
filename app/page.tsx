@@ -5,7 +5,7 @@ import { SubwayDisplay } from "@/components/mainpage/subwayDisplay";
 import { TimeDisplay } from "@/components/mainpage/timeDisplay";
 import { MessagesDisplay } from "@/components/mainpage/messageDisplay";
 
-export default function NYCGiftDisplay() {
+export default function DailyDash() {
   return (
     <>
       <WeatherBackground />

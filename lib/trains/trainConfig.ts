@@ -27,20 +27,42 @@ export const LINE_FEED_SUFFIXES: Record<string, string> = {
   SIR: "-si",
 };
 
-export const TRAIN_LINES = {
-  L: {
-    feedId: "nyct%2Fgtfs-l",
-    name: "L Train",
-    color: "#A7A9AC",
-  },
-};
+const red123 = "#EE352E"
+const blue456 = "#00933C"
+const purple_7 = "#B933AD"
+const lgrey = "#A7A9AC"
+const s_grey = "#808183"
+const nqrwyellow = "#FCCC0A"
+const ace_blue = "#0039A6"
+const bdfm_orange = "#FF6319"
+const g_green = "#6CBE45"
+const jz_brown = "#996633"
 
-export const STATIONS = {
-  "1AV": {
-    id: "L01", 
-    name: "1st Avenue",
-  },
-  // More stations...
+export const SUBWAY_COLORS = {
+  "1": red123,
+  "2": red123,
+  "3": red123,
+  "4": blue456,
+  "5": blue456,
+  "6": blue456,
+  "6X": blue456,
+  "7": purple_7,
+  "7X": purple_7,
+  "L": lgrey,
+  "N": nqrwyellow,
+  "Q": nqrwyellow,
+  "R": nqrwyellow,
+  "W": nqrwyellow,
+  "A": ace_blue,
+  "C": ace_blue,
+  "E": ace_blue,
+  "B": bdfm_orange,
+  "D": bdfm_orange,
+  "F": bdfm_orange,
+  "M": bdfm_orange,
+  "G": g_green,
+  "J": jz_brown,
+  "Z": jz_brown
 };
 
 export const STOPS_BY_LINE = {
