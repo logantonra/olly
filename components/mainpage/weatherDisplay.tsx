@@ -6,25 +6,8 @@ import { useWeather } from "@/lib/weather/useWeather";
 import { LocationSelector } from "@/components/mainpage/sub_components/locationSelector";
 import { getWeatherIcon } from "@/lib/weather/utils/getWeatherTheme";
 
-const mockWeatherData = {
-  current: {
-    temp: 72,
-    condition: "partly-cloudy" as const,
-    description: "Partly cloudy with gentle breeze",
-    icon: Cloud,
-  },
-  hourly: [
-    { time: "Now", temp: 72, condition: "partly-cloudy" },
-    { time: "2 PM", temp: 75, condition: "sunny" },
-    { time: "4 PM", temp: 78, condition: "sunny" },
-    { time: "6 PM", temp: 74, condition: "cloudy" },
-    { time: "8 PM", temp: 69, condition: "light-rain" },
-  ],
-};
-
 export function WeatherDisplay() {
   const [tempLocation, setTempLocation] = useState("Manhattan");
-  const currentWeather = mockWeatherData.current;
   const { weather, loading } = useWeather(tempLocation);
   const code = weather?.code ?? 3;
   const WeatherIcon = getWeatherIcon(code);
@@ -67,5 +50,3 @@ export function WeatherDisplay() {
     </div>
   );
 }
-
-export { mockWeatherData };
