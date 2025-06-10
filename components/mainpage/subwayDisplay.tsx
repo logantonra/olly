@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Train, MapPin } from "lucide-react";
+import { Train } from "lucide-react";
 import { SUBWAY_COLORS } from "@/lib/trains/trainConfig";
 import { StationSelector } from "@/components/mainpage/sub_components/stationSelector";
 import { Station, StationSelectorProps } from "@/lib/trains/utils/types";
