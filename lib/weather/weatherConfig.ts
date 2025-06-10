@@ -18,7 +18,7 @@ import {
   Castle,
   TentTree,
 } from "lucide-react";
-import { softWeatherInfo } from "@/lib/weather/utils/types"
+import { WeatherTheme } from "@/lib/weather/utils/types"
 
 export const BOROUGH_COORDS: Record<string, { lat: number; lon: number }> = {
     manhattan: { lat: 40.7831, lon: -73.9712 },
@@ -28,32 +28,59 @@ export const BOROUGH_COORDS: Record<string, { lat: number; lon: number }> = {
     staten: { lat: 40.5795, lon: -74.1502 },
   };
   
-export const WEATHER_CODE_MAP: Record<number, softWeatherInfo> = {
-  0: { theme: "sunny", description: "Clear sky", icon: Sun },
-  1: { theme: "partly-cloudy", description: "Mainly clear", icon: CloudSun },
-  2: { theme: "partly-cloudy", description: "Partly cloudy", icon: CloudSun },
-  3: { theme: "cloudy", description: "Overcast", icon: Cloud },
-  45: { theme: "cloudy", description: "Foggy", icon: CloudFog },
-  48: { theme: "cloudy", description: "Depositing rime fog", icon: CloudFog },
-  51: { theme: "light-rain", description: "Light drizzle", icon: CloudDrizzle },
-  53: { theme: "light-rain", description: "Moderate drizzle", icon: CloudDrizzle },
-  55: { theme: "light-rain", description: "Dense drizzle", icon: CloudDrizzle },
-  61: { theme: "rain", description: "Light rain", icon: CloudRain },
-  63: { theme: "rain", description: "Moderate rain", icon: CloudRain },
-  65: { theme: "rain", description: "Heavy rain", icon: CloudRain },
-  66: { theme: "snow", description: "Freezing rain", icon: CloudSnow },
-  67: { theme: "snow", description: "Heavy freezing rain", icon: CloudSnow },
-  71: { theme: "snow", description: "Slight snow", icon: Snowflake },
-  73: { theme: "snow", description: "Moderate snow", icon: Snowflake },
-  75: { theme: "snow", description: "Heavy snow", icon: CloudSnow },
-  77: { theme: "snow", description: "Snow grains", icon: CloudSnow },
-  80: { theme: "light-rain", description: "Slight rain showers", icon: Droplets },
-  81: { theme: "rain", description: "Moderate rain showers", icon: CloudRain },
-  82: { theme: "rain", description: "Violent rain showers", icon: CloudRain },
-  95: { theme: "thunderstorm", description: "Thunderstorm", icon: CloudLightning },
-  96: { theme: "thunderstorm", description: "Thunderstorm with hail", icon: CloudHail },
-  99: { theme: "thunderstorm", description: "Severe thunderstorm", icon: CloudLightning },
-  };
+export const WEATHER_CODE_MAP: Record<number, { theme: WeatherTheme; description: string }> = {
+  0: { theme: "sunny", description: "Clear sky" },
+  1: { theme: "partly-cloudy", description: "Mainly clear" },
+  2: { theme: "partly-cloudy", description: "Partly cloudy" },
+  3: { theme: "cloudy", description: "Overcast" },
+  45: { theme: "cloudy", description: "Foggy" },
+  48: { theme: "cloudy", description: "Depositing rime fog" },
+  51: { theme: "light-rain", description: "Light drizzle" },
+  53: { theme: "light-rain", description: "Moderate drizzle" },
+  55: { theme: "light-rain", description: "Dense drizzle" },
+  61: { theme: "rain", description: "Light rain" },
+  63: { theme: "rain", description: "Moderate rain" },
+  65: { theme: "rain", description: "Heavy rain" },
+  66: { theme: "snow", description: "Freezing rain" },
+  67: { theme: "snow", description: "Heavy freezing rain" },
+  71: { theme: "snow", description: "Slight snow" },
+  73: { theme: "snow", description: "Moderate snow" },
+  75: { theme: "snow", description: "Heavy snow" },
+  77: { theme: "snow", description: "Snow grains" },
+  80: { theme: "light-rain", description: "Slight rain showers" },
+  81: { theme: "rain", description: "Moderate rain showers" },
+  82: { theme: "rain", description: "Violent rain showers" },
+  95: { theme: "thunderstorm", description: "Thunderstorm" },
+  96: { theme: "thunderstorm", description: "Thunderstorm with hail" },
+  99: { theme: "thunderstorm", description: "Severe thunderstorm" },
+};
+
+export const WEATHER_ICON_MAP: Record<number, typeof Sun> = {
+  0: Sun,
+  1: CloudSun,
+  2: CloudSun,
+  3: Cloud,
+  45: CloudFog,
+  48: CloudFog,
+  51: CloudDrizzle,
+  53: CloudDrizzle,
+  55: CloudDrizzle,
+  61: CloudRain,
+  63: CloudRain,
+  65: CloudRain,
+  66: CloudSnow,
+  67: CloudSnow,
+  71: Snowflake,
+  73: Snowflake,
+  75: CloudSnow,
+  77: CloudSnow,
+  80: Droplets,
+  81: CloudRain,
+  82: CloudRain,
+  95: CloudLightning,
+  96: CloudHail,
+  99: CloudLightning,
+};
 
 export const BOROUGH_OPTIONS = [
     {

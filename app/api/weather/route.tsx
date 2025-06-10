@@ -51,6 +51,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     temperature: celsiusToFahrenheit(data.current_weather.temperature),
+    code: code,
     forecast: next10Every2Hours,
     softInfo: descriptionData,
   });
