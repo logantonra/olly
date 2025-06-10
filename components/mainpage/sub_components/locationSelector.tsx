@@ -42,18 +42,28 @@ export function LocationSelector({
             <DialogTitle>Select a Borough</DialogTitle>
           </DialogHeader>
 
-          <div className="mt-4 flex items-center justify-between gap-3 overflow-x-auto px-2">
-            {BOROUGH_OPTIONS.map(({ name, value, icon: Icon, color }) => (
+          <div className="mt-4 flex items-center justify-between gap-4 overflow-x-auto px-4 py-2">
+            {BOROUGH_OPTIONS.map(({ name, value, icon: Icon }) => (
               <button
                 key={value}
                 onClick={() => setTempLocation(value)}
-                className={`flex h-16 w-16 flex-col items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-105 focus:outline-none ${
+                className={`flex h-20 w-20 flex-col items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-105 focus:outline-none ${
                   tempLocation === value ? "ring-4 ring-black" : ""
-                } ${color}`}
+                } ${
+                  value === "manhattan"
+                    ? "bg-yellow-500"
+                    : value === "brooklyn"
+                    ? "bg-red-500"
+                    : value === "queens"
+                    ? "bg-green-500"
+                    : value === "bronx"
+                    ? "bg-blue-500"
+                    : "bg-purple-500"
+                }`}
                 title={name}
               >
-                <Icon className="h-5 w-5" />
-                <span className="mt-1 text-[10px]">{name}</span>
+                <Icon className="h-6 w-6" />
+                <span className="mt-1 text-[11px] font-medium">{name}</span>
               </button>
             ))}
           </div>
