@@ -15,4 +15,4 @@ Dashboard for local train times. Hosted in AWS, but will run on a raspi on kiosk
 - [ ] Add loading placeholders/ api error placeholders for train times and weather
 - [ ] Fix all snow/ rain animations
 - [ ] Make background dynamic based on real weather data
-- [ ] Design decision: integrate with webpage to allow users to send messages?
+- [ ] Fix login cookies- works in dev not prod

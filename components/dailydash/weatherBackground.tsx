@@ -1,5 +1,14 @@
 "use client";
 
+type WeatherCondition =
+  | "sunny"
+  | "partly-cloudy"
+  | "cloudy"
+  | "light-rain"
+  | "rain"
+  | "snow"
+  | "thunderstorm";
+
 const weatherBackgrounds = {
   sunny: "bg-gradient-to-br from-blue-400 via-blue-300 to-yellow-300",
   "partly-cloudy": "bg-gradient-to-br from-blue-400 via-blue-300 to-cyan-300",
@@ -12,7 +21,9 @@ const weatherBackgrounds = {
 
 export function WeatherBackground() {
   // TODO: make this dynamic based on the live weather feed
-  const currentWeather = { condition: "partly-cloudy" };
+  const currentWeather: { condition: WeatherCondition } = {
+    condition: "partly-cloudy",
+  };
   const backgroundClass = weatherBackgrounds[currentWeather.condition];
 
   return (

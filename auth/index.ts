@@ -20,7 +20,8 @@ const app = issuer({
     code: CodeProvider(
       CodeUI({
         sendCode: async (email, code) => {
-          sendVerificationEmail(email, code)
+          const cleamail = typeof email === "string" ? email : email.email;
+          sendVerificationEmail(cleamail, code)
         },
       }),
     ),
