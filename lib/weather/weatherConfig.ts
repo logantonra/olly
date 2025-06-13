@@ -21,7 +21,7 @@ import {
 import { WeatherTheme } from "@/lib/weather/utils/types"
 
 export const BOROUGH_COORDS: Record<string, { lat: number; lon: number }> = {
-    manhattan: { lat: 40.7831, lon: -73.9712 },
+    manhattan: { lat: 40.730799, lon: -73.983327 },
     brooklyn: { lat: 40.6782, lon: -73.9442 },
     queens: { lat: 40.7282, lon: -73.7949 },
     bronx: { lat: 40.8448, lon: -73.8648 },

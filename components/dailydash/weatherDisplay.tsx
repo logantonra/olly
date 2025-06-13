@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Cloud } from "lucide-react";
 import { useWeather } from "@/lib/weather/useWeather";
-import { LocationSelector } from "@/components/mainpage/sub_components/locationSelector";
+import { LocationSelector } from "@/components/dailydash/sub_components/locationSelector";
 import { getWeatherIcon } from "@/lib/weather/utils/getWeatherTheme";
 
 export function WeatherDisplay() {
@@ -11,6 +11,7 @@ export function WeatherDisplay() {
   const { weather, loading } = useWeather(tempLocation);
   const code = weather?.code ?? 3;
   const WeatherIcon = getWeatherIcon(code);
+  console.log(weather);
 
   return (
     <div className="flex-1 text-center">

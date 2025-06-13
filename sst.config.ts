@@ -14,3 +14,7 @@ export default $config({
     new sst.aws.Nextjs("DailyDash");
   },
 });
+
+const auth = new sst.aws.Auth("MyAuth", {
+  issuer: "app/auth.handler"
+});

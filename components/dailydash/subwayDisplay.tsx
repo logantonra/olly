@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Train } from "lucide-react";
 import { SUBWAY_COLORS } from "@/lib/trains/trainConfig";
-import { StationSelector } from "@/components/mainpage/sub_components/stationSelector";
+import { StationSelector } from "@/components/dailydash/sub_components/stationSelector";
 import { Station, StationSelectorProps } from "@/lib/trains/utils/types";
 
 interface StationConfig {
@@ -47,7 +47,7 @@ export function SubwayDisplay() {
     <div className="flex-shrink-0">
       <Card className="border-white/20 bg-white/10 text-white backdrop-blur-md">
         <CardContent className="min-w-[320px] p-6">
-          <div className="mb-4 flex items-center justify-between">
+          {/* <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Train className="h-5 w-5" />
               <h2 className="text-lg font-medium">Next Trains</h2>
@@ -56,7 +56,7 @@ export function SubwayDisplay() {
               selectedStations={selectedStations}
               setSelectedStations={setSelectedStations}
             />
-          </div>
+          </div> */}
 
           <div className="space-y-4">
             {selectedStations.map((stationConfig, idx) => (
