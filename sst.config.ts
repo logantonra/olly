@@ -18,11 +18,20 @@ export default $config({
     const secrets = {
       domain: new sst.Secret("Domain"),
       authDomain: new sst.Secret("AuthDomain"),
+      fromEmail: new sst.Secret("FromEmail")
     };
+
+    // Email service 
+    const email = new sst.aws.Email("OllyEmail", {
+      sender: secrets.fromEmail.value
+    });
     
     // Create the Auth component
     const auth = new sst.aws.Auth("OllyAuth", {
-      issuer: "auth/index.handler",
+      issuer: {
+        handler: "auth/index.handler",
+        link: [email]
+      },
       ...(stage === "production" && {
         domain: secrets.authDomain.value
       }),
@@ -30,7 +39,7 @@ export default $config({
 
     // Create your Next.js app with conditional domain
     const site = new sst.aws.Nextjs("DailyDash", {
-      link: [auth, secrets],
+      link: [auth, secrets, email],
       environment: {
         NEXT_PUBLIC_AUTH_URL: auth.url,
       },

@@ -4,6 +4,7 @@ import { CodeUI } from "@openauthjs/openauth/ui/code"
 import { CodeProvider } from "@openauthjs/openauth/provider/code"
 import { MemoryStorage } from "@openauthjs/openauth/storage/memory"
 import { subjects } from "./subjects"
+import { sendVerificationEmail} from "@/lib/email/verificationEmail"
 
 async function getUser(email: string) {
   // Get user from database and return user ID
@@ -19,7 +20,7 @@ const app = issuer({
     code: CodeProvider(
       CodeUI({
         sendCode: async (email, code) => {
-          console.log(email, code)
+          sendVerificationEmail(email, code)
         },
       }),
     ),

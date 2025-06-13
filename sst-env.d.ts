@@ -16,9 +16,18 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "FromEmail": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "OllyAuth": {
       "type": "sst.aws.Auth"
       "url": string
+    }
+    "OllyEmail": {
+      "configSet": string
+      "sender": string
+      "type": "sst.aws.Email"
     }
   }
 }
