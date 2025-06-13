@@ -5,8 +5,20 @@
 
 declare module "sst" {
   export interface Resource {
+    "AuthDomain": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "DailyDash": {
       "type": "sst.aws.Nextjs"
+    }
+    "Domain": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "OllyAuth": {
+      "type": "sst.aws.Auth"
+      "url": string
     }
   }
 }
