@@ -17,7 +17,6 @@ export default $config({
     // Get secrets from SST
     const secrets = {
       domain: new sst.Secret("Domain"),
-      authDomain: new sst.Secret("AuthDomain"),
       fromEmail: new sst.Secret("FromEmail"),
       certificate: new sst.Secret("CertificateArn"),
       google_auth_id: new sst.Secret("GoogleAuthId"),
