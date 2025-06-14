@@ -9,8 +9,13 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "CertificateArn": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "DailyDash": {
       "type": "sst.aws.Nextjs"
+      "url": string
     }
     "Domain": {
       "type": "sst.sst.Secret"

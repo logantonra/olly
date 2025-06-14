@@ -18,7 +18,8 @@ export default $config({
     const secrets = {
       domain: new sst.Secret("Domain"),
       authDomain: new sst.Secret("AuthDomain"),
-      fromEmail: new sst.Secret("FromEmail")
+      fromEmail: new sst.Secret("FromEmail"),
+      certificate: new sst.Secret("CertificateArn")
     };
 
     // Email service 
@@ -33,7 +34,8 @@ export default $config({
         link: [email]
       },
       ...(stage === "production" && {
-        domain: secrets.authDomain.value
+        domain: secrets.authDomain.value,
+        certificate: secrets.certificate.value,
       }),
     });
 
