@@ -19,31 +19,19 @@ export default $config({
       domain: new sst.Secret("Domain"),
       authDomain: new sst.Secret("AuthDomain"),
       fromEmail: new sst.Secret("FromEmail"),
-      certificate: new sst.Secret("CertificateArn")
+      certificate: new sst.Secret("CertificateArn"),
+      google_auth_id: new sst.Secret("GoogleAuthId"),
+      google_auth_secret: new sst.Secret("GoogleAuthSecret"),
+      auth_secret: new sst.Secret("AuthSecret"),
     };
-
-    // Email service 
-    const email = new sst.aws.Email("OllyEmail", {
-      sender: secrets.fromEmail.value
-    });
-    
-    // Create the Auth component
-    const auth = new sst.aws.Auth("OllyAuth", {
-      issuer: {
-        handler: "auth/index.handler",
-        link: [email]
-      },
-      ...(stage === "production" && {
-        domain: secrets.authDomain.value,
-        certificate: secrets.certificate.value,
-      }),
-    });
 
     // Create your Next.js app with conditional domain
     const site = new sst.aws.Nextjs("DailyDash", {
-      link: [auth, secrets, email],
+      link: [secrets],
       environment: {
-        NEXT_PUBLIC_AUTH_URL: auth.url,
+        AUTH_SECRET: secrets.auth_secret.value,
+        AUTH_GOOGLE_ID: secrets.google_auth_id.value,
+        AUTH_GOOGLE_SECRET: secrets.google_auth_secret.value,
       },
       ...(stage === "production" && {
         domain: {
@@ -55,7 +43,6 @@ export default $config({
     // Return the URLs for easy access
     return {
       site: site.url,
-      auth: auth.url,
       stage: stage,
     };
   },

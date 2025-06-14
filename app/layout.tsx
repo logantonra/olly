@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { LoginLogout } from "@/components/layout/loginLogout";
 import { CloudySplash } from "@/components/splash/cloudySplash";
+import { auth } from "@/auth";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,15 +16,17 @@ export const metadata: Metadata = {
   description: "A personalized display for your special someone",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LoginLogout />
+        <LoginLogout signedin={!!session?.user} />
         <CloudySplash />
         {children}
       </body>

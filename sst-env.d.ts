@@ -9,13 +9,16 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "AuthSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "CertificateArn": {
       "type": "sst.sst.Secret"
       "value": string
     }
     "DailyDash": {
       "type": "sst.aws.Nextjs"
-      "url": string
     }
     "Domain": {
       "type": "sst.sst.Secret"
@@ -25,14 +28,13 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "OllyAuth": {
-      "type": "sst.aws.Auth"
-      "url": string
+    "GoogleAuthId": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
-    "OllyEmail": {
-      "configSet": string
-      "sender": string
-      "type": "sst.aws.Email"
+    "GoogleAuthSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
   }
 }
