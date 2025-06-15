@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-export function TimeDisplay() {
+export function TimeDisplay({ email }: { email: string }) {
+  // TODO: Use email to fetch user-specific time settings if needed
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {

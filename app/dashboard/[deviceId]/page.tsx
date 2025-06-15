@@ -18,6 +18,7 @@ export default async function DailyDash({
   params,
   searchParams,
 }: DailyDashProps) {
+  // Extract deviceId and token from params and searchParams. Set auth related variables, get user email
   const deviceId = params.deviceId;
   const token = searchParams.token;
   const userEmail = await deviceOwner(deviceId, token);
@@ -30,13 +31,13 @@ export default async function DailyDash({
     <>
       {authorized && (
         <>
-          <WeatherBackground />
+          <WeatherBackground email={userEmail} />
           <div className="relative z-10 flex h-screen items-center px-8">
             <div className="mx-auto flex w-full max-w-[1900px] items-center justify-between gap-8">
-              <TimeDisplay />
-              <SubwayDisplay />
-              <WeatherDisplay />
-              <MessagesDisplay />
+              <TimeDisplay email={userEmail} />
+              <SubwayDisplay email={userEmail} />
+              <WeatherDisplay email={userEmail} />
+              <MessagesDisplay email={userEmail} />
             </div>
           </div>
         </>

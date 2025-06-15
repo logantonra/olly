@@ -6,7 +6,7 @@ import { useWeather } from "@/lib/weather/useWeather";
 import { LocationSelector } from "@/components/dailydash/sub_components/locationSelector";
 import { getWeatherIcon } from "@/lib/weather/utils/getWeatherTheme";
 
-export function WeatherDisplay() {
+export function WeatherDisplay({ email }: { email: string }) {
   const [tempLocation, setTempLocation] = useState("Manhattan");
   const { weather, loading } = useWeather(tempLocation);
   const code = weather?.code ?? 3;

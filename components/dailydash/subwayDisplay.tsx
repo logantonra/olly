@@ -14,7 +14,7 @@ interface StationConfig {
   direction: "Northbound" | "Southbound";
 }
 
-export function SubwayDisplay() {
+export function SubwayDisplay({ email }: { email: string }) {
   const [selectedStations, setSelectedStations] = useState<Station[]>([
     { name: "Union Sq-14 St", id: "L03", direction: "Northbound" },
     { name: "Grand Central-42 St", id: "631", direction: "Southbound" },

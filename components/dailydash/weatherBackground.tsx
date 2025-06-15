@@ -19,7 +19,7 @@ const weatherBackgrounds = {
   thunderstorm: "bg-gradient-to-br from-slate-800 via-gray-700 to-purple-700",
 };
 
-export function WeatherBackground() {
+export function WeatherBackground({ email }: { email: string }) {
   // TODO: make this dynamic based on the live weather feed
   const currentWeather: { condition: WeatherCondition } = {
     condition: "partly-cloudy",
