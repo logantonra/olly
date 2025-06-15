@@ -1,3 +1,4 @@
+"use server";
 import React from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
@@ -5,6 +6,10 @@ import { House } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
+  const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   return (
     <>
       <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-blue-300 text-white">

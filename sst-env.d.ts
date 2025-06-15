@@ -15,7 +15,6 @@ declare module "sst" {
     }
     "DailyDash": {
       "type": "sst.aws.Nextjs"
-      "url": string
     }
     "Domain": {
       "type": "sst.sst.Secret"
