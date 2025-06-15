@@ -16,6 +16,10 @@ declare module "sst" {
     "DailyDash": {
       "type": "sst.aws.Nextjs"
     }
+    "Devices": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
     "Domain": {
       "type": "sst.sst.Secret"
       "value": string
@@ -31,6 +35,14 @@ declare module "sst" {
     "GoogleAuthSecret": {
       "type": "sst.sst.Secret"
       "value": string
+    }
+    "Messages": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "UserSettings": {
+      "name": string
+      "type": "sst.aws.Dynamo"
     }
   }
 }
