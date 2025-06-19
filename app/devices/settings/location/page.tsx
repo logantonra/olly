@@ -1,31 +1,36 @@
 "use server";
+
 import React from "react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { House } from "lucide-react";
-import Link from "next/link";
+import UseMyLocation from "@/components/useMyLocation";
+import { getUserSettings } from "@/lib/db/userPrefs";
 
-export default async function Home() {
+export default async function LocationSettings() {
   const session = await auth();
-  if (!session) {
-    redirect("/");
-  }
+  if (!session) redirect("/");
+
+  const { location = { city: "" } } =
+    (await getUserSettings(session.user.email)) ?? {};
+
   return (
-    <>
-      <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-blue-300 text-white">
-        <div className="relative z-10 flex w-full max-w-xl flex-col items-center rounded-3xl bg-white/20 px-6 py-10 text-center shadow-xl backdrop-blur-md sm:px-10 md:px-12">
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Coming Soon
-          </h2>
-          <p className="text-lg text-white/90">
-            This will be the location settings page where you can manage your
-            device's location settings
-          </p>
-          <Link href="/">
-            <House className="mt-6 h-8 w-8 text-white hover:text-white/80" />
-          </Link>
-        </div>
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-blue-300 text-white">
+      <div className="relative z-10 flex w-full max-w-xl flex-col items-center rounded-3xl bg-white/20 px-6 py-10 text-center shadow-xl backdrop-blur-md sm:px-10 md:px-12">
+        <h2 className="mb-6 text-3xl font-semibold">Set your location</h2>
+
+        <UseMyLocation initial={location} />
+
+        <p className="mt-6 max-w-xs text-sm opacity-90">
+          We’ll use this spot for weather, time zone, and anything else that’s
+          location-aware.
+        </p>
+
+        <Link href="/">
+          <House className="mt-8 h-8 w-8 text-white hover:text-white/80" />
+        </Link>
       </div>
-    </>
+    </div>
   );
 }

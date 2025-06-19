@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Train } from "lucide-react";
 import { SUBWAY_COLORS } from "@/lib/trains/trainConfig";
-import { StationSelector } from "@/components/dailydash/sub_components/stationSelector";
+import { StationSelector } from "@/components/stationSelector";
 import { Station, StationSelectorProps } from "@/lib/trains/utils/types";
 
 interface StationConfig {
