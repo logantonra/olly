@@ -1,6 +1,6 @@
-# ras-pi-dash
+# Olly
 
-Dashboard for local train times. Hosted in AWS, but will run on a raspi on kiosk mode. TODO: full instructions in README.md
+A simple way to get a jump start on your day.
 
 ## TODO
 
@@ -15,6 +15,8 @@ Dashboard for local train times. Hosted in AWS, but will run on a raspi on kiosk
 
 **Lower Priority**
 
+- [ ] Implement more secure device auth
+  - Figure out the flow for issuing new devices in general
 - [ ] Refactor dashboard to not be editable- only via connected user account on website
 - [ ] Make time update exactly at the minute
 - [ ] Add testing with Jest
@@ -27,3 +29,4 @@ Dashboard for local train times. Hosted in AWS, but will run on a raspi on kiosk
 - [ ] Add loading placeholders/ api error placeholders for train times and weather
 - [ ] Fix all snow/ rain animations
 - [ ] Make background dynamic based on real weather data
+- [ ] Add full description of what this app is and how to use it to README.md
