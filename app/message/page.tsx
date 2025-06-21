@@ -18,9 +18,9 @@ export default function SendMessagePage() {
   const router = useRouter();
 
   const handleUsernameSubmit = async () => {
-    if (!/^[a-z]{1,32}$/.test(username)) {
+    if (!/^[a-zA-Z]{1,32}$/.test(username)) {
       setError(
-        "Username must be 1-32 lowercase letters, no spaces or special characters.",
+        "Username must be 1-32 characters, no spaces or special characters.",
       );
       return;
     }
@@ -85,7 +85,7 @@ export default function SendMessagePage() {
                   placeholder="e.g. johndoe"
                   value={username}
                   maxLength={32}
-                  pattern="[a-z]*"
+                  pattern="[a-z][A-Z]*"
                   onChange={(e) => setUsername(e.target.value)}
                   className="border-none bg-white/90 text-sm text-black shadow-sm"
                 />

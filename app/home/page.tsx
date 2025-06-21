@@ -21,13 +21,13 @@ export default async function Home() {
           {/* Button Container */}
           <div className="flex w-full flex-col gap-6 md:flex-row">
             <RedirectButton
-              label="Manage My Ollys"
-              page="/devices"
+              label="Send a message"
+              page="/message"
             ></RedirectButton>
 
             <RedirectButton
-              label="Send a message"
-              page="/message"
+              label="Manage My Ollys"
+              page="/devices"
             ></RedirectButton>
           </div>
         </div>

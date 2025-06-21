@@ -1,4 +1,3 @@
-// app/api/stop-times/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getStopTimesForStation } from "@/lib/trains/utils/stationTimes";
 
