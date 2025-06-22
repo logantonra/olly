@@ -188,9 +188,30 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(500px);
+    transform: translateY(1000px);
     opacity: 0;
   }
+}
+
+@keyframes snow {
+  0% {
+    transform: translateY(-5vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-snow {
+  animation: snow linear infinite;
 }
 
 .animate-float {

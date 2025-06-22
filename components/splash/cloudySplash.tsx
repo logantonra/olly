@@ -1,8 +1,15 @@
 "use client";
+import { usePathname } from "next/navigation";
 
 export function CloudySplash() {
   const backgroundClass =
     "bg-gradient-to-br from-blue-400 via-blue-300 to-cyan-300";
+
+  const pathname = usePathname();
+  const isDashboard = pathname?.startsWith("/dashboards");
+  if (isDashboard) {
+    return null;
+  }
 
   return (
     <div className={`fixed inset-0 ${backgroundClass}`}>
