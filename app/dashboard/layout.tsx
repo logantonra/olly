@@ -1,6 +1,8 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import "@/app/globals.css";
 
 const inter = Inter({
@@ -13,10 +15,14 @@ export const metadata: Metadata = {
   description: "A personalized display for your special someone",
 };
 
-export default function RootLayout({
+export default async function DashGuard({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   return <>{children}</>;
 }

@@ -5,7 +5,7 @@ import { LoggedIn } from "@/lib/auth/types";
 import { getStopTimesForStation } from "@/lib/trains/utils/stationTimes";
 
 export async function GET(req: NextRequest) {
-  const session = await auth() as LoggedIn | null; 
+  const session = (await auth()) as LoggedIn | null;
   if (!session) {
     return NextResponse.json({ error: "unauth" }, { status: 401 });
   }
@@ -15,17 +15,19 @@ export async function GET(req: NextRequest) {
     if (!settings) {
       return NextResponse.json({ error: "no user settings" }, { status: 404 });
     }
-    const directions = settings.stations.map(station =>
-      station.direction === "Northbound" ? "N" : "S"
-    );
-    const times = await Promise.all([
-      getStopTimesForStation(settings.stations[0].name, directions[0]),
-      getStopTimesForStation(settings.stations[1].name, directions[1])
-    ]);
-    const [times1, times2] = times;
-    console.log("Times for stations:", times1, times2);
 
-    return NextResponse.json(settings);
+    const times = await Promise.all(
+      settings.stations.map((s) =>
+        getStopTimesForStation(
+          s.id,
+          s.direction === "Northbound" ? "N" : "S",
+        ),
+      ),
+    );
+    return NextResponse.json({
+      stations: settings.stations,
+      times,
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "failed" }, { status: 500 });

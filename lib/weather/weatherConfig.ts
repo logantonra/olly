@@ -11,22 +11,7 @@ import {
   CloudLightning,
   CloudHail,
 } from "lucide-react";
-import {
-  Building,
-  Landmark,
-  TreeDeciduous,
-  Castle,
-  TentTree,
-} from "lucide-react";
 import { WeatherTheme } from "@/lib/weather/utils/types"
-
-export const BOROUGH_COORDS: Record<string, { lat: number; lon: number }> = {
-    manhattan: { lat: 40.730799, lon: -73.983327 },
-    brooklyn: { lat: 40.6782, lon: -73.9442 },
-    queens: { lat: 40.7282, lon: -73.7949 },
-    bronx: { lat: 40.8448, lon: -73.8648 },
-    staten: { lat: 40.5795, lon: -74.1502 },
-  };
   
 export const WEATHER_CODE_MAP: Record<number, { theme: WeatherTheme; description: string }> = {
   0: { theme: "sunny", description: "Clear sky" },
@@ -81,36 +66,3 @@ export const WEATHER_ICON_MAP: Record<number, typeof Sun> = {
   96: CloudHail,
   99: CloudLightning,
 };
-
-export const BOROUGH_OPTIONS = [
-    {
-      name: "Manhattan",
-      value: "manhattan",
-      icon: Building,
-      color: "bg-yellow-500",
-    },
-    {
-      name: "Brooklyn",
-      value: "brooklyn",
-      icon: Landmark,
-      color: "bg-red-500",
-    },
-    {
-      name: "Queens",
-      value: "queens",
-      icon: TreeDeciduous,
-      color: "bg-green-500",
-    },
-    {
-      name: "Bronx",
-      value: "bronx",
-      icon: Castle,
-      color: "bg-blue-500",
-    },
-    {
-      name: "Staten Island",
-      value: "staten",
-      icon: TentTree,
-      color: "bg-purple-500",
-    },
-  ];

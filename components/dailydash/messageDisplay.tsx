@@ -41,7 +41,7 @@ const mockMessages = [
   },
 ];
 
-export function MessagesDisplay({ email }: { email: string }) {
+export function MessagesDisplay() {
   const [messages, setMessages] = useState(mockMessages);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
