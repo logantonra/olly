@@ -8,6 +8,11 @@ A simple way to get a jump start on your day.
 
 - [ ] Build the first olly physical device
 
+**Mid Priority**
+
+- [ ] Implement message archive/ management feature
+- [ ] Implement register a new device flow/ QR code login
+
 **Lower Priority**
 
 - [ ] Make time update exactly at the minute
