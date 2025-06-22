@@ -26,11 +26,8 @@ export default async function DailyDash() {
           </div>
 
           {/* right column */}
-          <div className="col-start-2">
+          <div className="col-start-2 flex flex-col gap-y-4">
             <SubwayDisplay />
-          </div>
-
-          <div className="col-start-2 row-start-2">
             <MessagesDisplay />
           </div>
         </div>

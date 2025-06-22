@@ -2,8 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ApiMessage {
@@ -63,81 +61,60 @@ export function MessagesDisplay() {
 
   useEffect(() => {
     if (messages.length <= 1) return;
-    const t = setInterval(
-      () => setIdx((i) => (i + 1) % messages.length),
-      8_000, // TODO: make this configurable?
-    );
+    const t = setInterval(() => setIdx((i) => (i + 1) % messages.length), 8000);
     return () => clearInterval(t);
   }, [messages]);
 
   const current = messages[idx];
 
   return (
-    <div className="flex-shrink-0">
-      <Card className="border-white/20 bg-white/10 text-white backdrop-blur-md">
-        <CardContent className="h-[180px] min-w-[300px] p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <MessageCircle className="h-4 w-4 opacity-80" />
-              <h2 className="text-sm font-medium opacity-80">Messages</h2>
-            </div>
-            {messages.length > 0 && (
-              <Badge className="bg-pink-500 px-1.5 py-0.5 text-[10px]">
-                {messages.length}
-              </Badge>
-            )}
-          </div>
+    <div className="flex-grow">
+      <Card className="h-full border-white/20 bg-white/10 text-white backdrop-blur-md">
+        <CardContent className="relative h-full p-8">
+          <AnimatePresence mode="wait">
+            {current ? (
+              <motion.div
+                key={current.id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 flex flex-col justify-center px-4"
+              >
+                <div className="mb-4 text-4xl font-semibold">
+                  From: {current.from}
+                </div>
 
-          <div className="relative h-[108px] overflow-hidden">
-            <AnimatePresence mode="wait">
-              {current ? (
-                <motion.div
-                  key={current.id}
-                  initial={{ y: 15, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -15, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="absolute inset-0 flex flex-col justify-center"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium opacity-90">
-                        From: {current.from}
-                      </span>
-                      {messages.length > 1 && (
-                        <span className="text-[10px] opacity-60">
-                          {idx + 1}/{messages.length}
-                        </span>
-                      )}
-                    </div>
+                <div className="mb-6 break-words text-5xl font-light leading-snug">
+                  {current.text}
+                </div>
 
-                    <p className="text-sm leading-relaxed opacity-95">
-                      {current.text}
-                    </p>
+                <div className="text-2xl opacity-70">
+                  {current.ttl
+                    ? `Expires in ${formatExpires(
+                        current.ttl - Math.floor(Date.now() / 1000),
+                      )}`
+                    : "No expiration"}
+                </div>
 
-                    <span className="text-[10px] opacity-60">
-                      Expires&nbsp;
-                      {current.ttl
-                        ? `in ${formatExpires(
-                            current.ttl - Math.floor(Date.now() / 1000),
-                          )}`
-                        : "—"}
-                    </span>
+                {messages.length > 1 && (
+                  <div className="absolute right-6 top-6 text-[3rem] opacity-50">
+                    {idx + 1}/{messages.length}
                   </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center text-sm opacity-60"
-                >
-                  No messages for now – enjoy your day ✨
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 flex items-center justify-center text-3xl font-light opacity-60"
+              >
+                No messages for now – enjoy your day ✨
+              </motion.div>
+            )}
+          </AnimatePresence>
         </CardContent>
       </Card>
     </div>
