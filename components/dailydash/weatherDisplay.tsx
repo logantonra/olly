@@ -18,6 +18,31 @@ interface WeatherPayload {
 }
 
 export function WeatherDisplay() {
+  // Time stuff
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  // Weather stuff
   const [weather, setWeather] = useState<WeatherPayload | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -49,36 +74,48 @@ export function WeatherDisplay() {
   const WeatherIcon = getWeatherIcon(code);
 
   return (
-    <div className="flex-1 text-center">
-      <div className="text-white">
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <span className="text-lg font-light capitalize opacity-80">
-            {weather?.location ?? "Loading weather..."}
-          </span>
+    <>
+      <div className="flex-1">
+        <div className="flex-shrink-0">
+          <div className="text-white/90">
+            <div className="mb-[-4rem] text-[12rem] font-light">
+              {formatTime(currentTime)}
+            </div>
+            <div className="mt-[-2rem] text-[3rem] font-light opacity-80">
+              {formatDate(currentTime)}
+            </div>
+          </div>
         </div>
+        <hr className="border-t-16 my-8 border-white/20" />
 
-        {weather && (
-          <>
-            <div className="mb-4 flex items-center justify-center gap-4">
-              <WeatherIcon className="h-16 w-16" />
-              <div className="text-7xl font-thin">{weather.temperature}°</div>
-            </div>
-
-            <div className="mb-6 text-xl font-light opacity-90">
-              {weather.softInfo.description}
-            </div>
-
-            <div className="flex justify-center gap-6">
-              {weather.forecast.map((h, i) => (
-                <div key={i} className="text-center">
-                  <div className="mb-1 text-sm opacity-80">{h.time}</div>
-                  <div className="text-lg font-medium">{h.temperature}°</div>
+        <div className="text-center text-white">
+          {weather && (
+            <>
+              <div className="mb-4 flex items-center justify-center gap-4">
+                <WeatherIcon className="h-64 w-64" />
+                <div className="text-[12rem] font-thin">
+                  {weather.temperature}°
                 </div>
-              ))}
-            </div>
-          </>
-        )}
+              </div>
+
+              <div className="mb-6 text-[3rem] font-light opacity-90">
+                {weather.softInfo.description}
+              </div>
+
+              <div className="flex justify-center gap-6">
+                {weather.forecast.map((h, i) => (
+                  <div key={i} className="text-center">
+                    <div className="mb-1 text-[2rem] opacity-80">{h.time}</div>
+                    <div className="text-[3rem] font-medium">
+                      {h.temperature}°
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

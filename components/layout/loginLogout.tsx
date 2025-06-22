@@ -1,13 +1,15 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signOutGoogle } from "@/lib/auth/signout";
 
 export function LoginLogout({ signedin }: { signedin: boolean }) {
-  const [subject, setSubject] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  if (pathname === "/dashboard") return null;
 
   return (
     <>

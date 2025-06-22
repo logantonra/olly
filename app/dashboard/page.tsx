@@ -1,24 +1,40 @@
 "use server";
-import { WeatherBackground } from "@/components/dailydash/weatherBackground";
-import { WeatherDisplay } from "@/components/dailydash/weatherDisplay";
-import { SubwayDisplay } from "@/components/dailydash/subwayDisplay";
-import { TimeDisplay } from "@/components/dailydash/timeDisplay";
-import { MessagesDisplay } from "@/components/dailydash/messageDisplay";
+
+import {
+  WeatherBackground,
+  WeatherDisplay,
+  SubwayDisplay,
+  MessagesDisplay,
+} from "@/components/dailydash";
 
 export default async function DailyDash() {
   return (
     <>
-      <>
-        <WeatherBackground />
-        <div className="relative z-10 flex h-screen items-center px-8">
-          <div className="mx-auto flex w-full max-w-[1900px] items-center justify-between gap-8">
-            <TimeDisplay />
-            <SubwayDisplay />
+      <WeatherBackground />
+
+      {/* 2-column portrait grid */}
+      <div className="relative z-10 h-screen w-full px-6 py-8">
+        <div
+          className="grid h-full gap-6"
+          style={{
+            gridTemplateColumns: "800px 1fr", // slimmer left gutter
+            gridTemplateRows: "auto 1fr",
+          }}
+        >
+          <div className="flex justify-start">
             <WeatherDisplay />
+          </div>
+
+          {/* right column */}
+          <div className="col-start-2">
+            <SubwayDisplay />
+          </div>
+
+          <div className="col-start-2 row-start-2">
             <MessagesDisplay />
           </div>
         </div>
-      </>
+      </div>
     </>
   );
 }

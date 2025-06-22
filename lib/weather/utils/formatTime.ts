@@ -8,5 +8,5 @@ export function formatTime(hour: number): string {
   
     const period = hour >= 12 ? "PM" : "AM";
     const displayHour = hour % 12 || 12; // Convert 0 to 12 for 12-hour format
-    return `${displayHour} ${period}`;
+    return `${displayHour}${period}`;
   }
