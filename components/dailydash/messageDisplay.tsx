@@ -1,190 +1,143 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const mockMessages = [
-  {
-    id: 1,
-    from: "Mom",
-    text: "You forgot your lunch",
-    read: false,
-  },
-  {
-    id: 2,
-    from: "Greg",
-    text: "Auto slims tonight is a lock",
-    read: false,
-  },
-  {
-    id: 3,
-    from: "Swinch",
-    text: "My air conditioner is so moldy",
-    read: false,
-  },
-  {
-    id: 4,
-    from: "Dad",
-    text: "Do you have any beer in the fridge",
-    read: false,
-  },
-  {
-    id: 5,
-    from: "Colin",
-    text: "oy bruv",
-    read: false,
-  },
-];
+interface ApiMessage {
+  messageId: string;
+  senderName: string;
+  content: string;
+  ttl?: number;
+}
+interface UiMessage {
+  id: string;
+  from: string;
+  text: string;
+  ttl?: number;
+}
+
+const formatExpires = (s: number) =>
+  s <= 0
+    ? "expired"
+    : s < 60
+    ? `${s}s`
+    : s < 3600
+    ? `${Math.round(s / 60)} min`
+    : s < 86400
+    ? `${Math.round(s / 3600)} h`
+    : `${Math.round(s / 86400)} d`;
 
 export function MessagesDisplay() {
-  const [messages, setMessages] = useState(mockMessages);
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const touchStartX = useRef<number>(0);
-  const touchEndX = useRef<number>(0);
+  const [messages, setMessages] = useState<UiMessage[]>([]);
+  const [idx, setIdx] = useState(0);
 
-  const unreadMessages = messages.filter((m) => !m.read);
-  const currentMessage = unreadMessages[currentMessageIndex];
+  const fetchMessages = useCallback(async () => {
+    try {
+      const r = await fetch("/api/messages/poll", { credentials: "include" });
+      if (!r.ok) throw new Error("fetch failed");
+      const { messages: rows }: { messages: ApiMessage[] } = await r.json();
 
-  // Auto-cycle through messages
+      const now = Math.floor(Date.now() / 1000);
+      setMessages(
+        rows.map((m) => ({
+          id: m.messageId,
+          from: m.senderName,
+          text: m.content,
+          ttl: m.ttl,
+        })),
+      );
+      setIdx(0);
+    } catch (e) {
+      console.error("messages fetch:", e);
+    }
+  }, []);
+
   useEffect(() => {
-    if (!isAutoPlaying || unreadMessages.length === 0) return;
+    fetchMessages();
+    const t = setInterval(fetchMessages, 120_000);
+    return () => clearInterval(t);
+  }, [fetchMessages]);
 
-    const timer = setInterval(() => {
-      setCurrentMessageIndex((prev) => (prev + 1) % unreadMessages.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [unreadMessages.length, isAutoPlaying]);
-
-  const markMessageAsRead = (messageId: number) => {
-    setMessages((prev) =>
-      prev.map((msg) => (msg.id === messageId ? { ...msg, read: true } : msg)),
+  useEffect(() => {
+    if (messages.length <= 1) return;
+    const t = setInterval(
+      () => setIdx((i) => (i + 1) % messages.length),
+      8_000, // TODO: make this configurable?
     );
-    // Adjust current index if needed
-    if (currentMessageIndex >= unreadMessages.length - 1) {
-      setCurrentMessageIndex(0);
-    }
-  };
+    return () => clearInterval(t);
+  }, [messages]);
 
-  const goToNextMessage = () => {
-    setIsAutoPlaying(false);
-    setCurrentMessageIndex((prev) => (prev + 1) % unreadMessages.length);
-    // Resume auto-play after 10 seconds
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  const goToPrevMessage = () => {
-    setIsAutoPlaying(false);
-    setCurrentMessageIndex(
-      (prev) => (prev - 1 + unreadMessages.length) % unreadMessages.length,
-    );
-    // Resume auto-play after 10 seconds
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe && unreadMessages.length > 1) {
-      goToNextMessage();
-    }
-    if (isRightSwipe && unreadMessages.length > 1) {
-      goToPrevMessage();
-    }
-  };
+  const current = messages[idx];
 
   return (
     <div className="flex-shrink-0">
       <Card className="border-white/20 bg-white/10 text-white backdrop-blur-md">
-        <CardContent className="h-[200px] min-w-[320px] p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5" />
-              <h2 className="text-lg font-medium">Messages</h2>
+        <CardContent className="h-[180px] min-w-[300px] p-4">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <MessageCircle className="h-4 w-4 opacity-80" />
+              <h2 className="text-sm font-medium opacity-80">Messages</h2>
             </div>
-            {unreadMessages.length > 0 && (
-              <div className="flex items-center gap-2">
-                <Badge className="bg-pink-500 text-xs text-white">
-                  {unreadMessages.length}
-                </Badge>
-                {unreadMessages.length > 1 && (
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={goToPrevMessage}
-                      className="h-6 w-6 p-1 text-white hover:bg-white/20"
-                    >
-                      <ChevronLeft className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={goToNextMessage}
-                      className="h-6 w-6 p-1 text-white hover:bg-white/20"
-                    >
-                      <ChevronRight className="h-3 w-3" />
-                    </Button>
-                  </div>
-                )}
-              </div>
+            {messages.length > 0 && (
+              <Badge className="bg-pink-500 px-1.5 py-0.5 text-[10px]">
+                {messages.length}
+              </Badge>
             )}
           </div>
 
-          {currentMessage ? (
-            <div
-              className="flex h-32 cursor-pointer select-none flex-col justify-center"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium opacity-90">
-                    From: {currentMessage.from}
-                  </div>
-                  {unreadMessages.length > 1 && (
-                    <div className="text-xs opacity-70">
-                      {currentMessageIndex + 1} of {unreadMessages.length}
-                    </div>
-                  )}
-                </div>
-                <div className="text-sm leading-relaxed opacity-95">
-                  {currentMessage.text}
-                </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => markMessageAsRead(currentMessage.id)}
-                  className="mt-2 self-start text-white hover:bg-white/20"
+          <div className="relative h-[108px] overflow-hidden">
+            <AnimatePresence mode="wait">
+              {current ? (
+                <motion.div
+                  key={current.id}
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -15, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="absolute inset-0 flex flex-col justify-center"
                 >
-                  <X className="mr-1 h-3 w-3" />
-                  Mark Read
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex h-32 items-center justify-center text-sm opacity-60">
-              All caught up! ✨
-            </div>
-          )}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium opacity-90">
+                        From: {current.from}
+                      </span>
+                      {messages.length > 1 && (
+                        <span className="text-[10px] opacity-60">
+                          {idx + 1}/{messages.length}
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-sm leading-relaxed opacity-95">
+                      {current.text}
+                    </p>
+
+                    <span className="text-[10px] opacity-60">
+                      Expires&nbsp;
+                      {current.ttl
+                        ? `in ${formatExpires(
+                            current.ttl - Math.floor(Date.now() / 1000),
+                          )}`
+                        : "—"}
+                    </span>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center text-sm opacity-60"
+                >
+                  No messages for now – enjoy your day ✨
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </CardContent>
       </Card>
     </div>

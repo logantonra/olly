@@ -1,4 +1,3 @@
-// lib/db/get-user-settings.ts
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,

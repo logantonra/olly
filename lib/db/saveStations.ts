@@ -23,6 +23,5 @@ export async function saveStations(stations: readonly [Station, Station]) {
     }),
   );
 
-  /* ensure /settings re-renders with the fresh values */
   revalidatePath("/settings");
 }

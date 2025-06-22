@@ -4,25 +4,8 @@ import { WeatherDisplay } from "@/components/dailydash/weatherDisplay";
 import { SubwayDisplay } from "@/components/dailydash/subwayDisplay";
 import { TimeDisplay } from "@/components/dailydash/timeDisplay";
 import { MessagesDisplay } from "@/components/dailydash/messageDisplay";
-import { getUserEmail } from "@/lib/auth/getSession";
 
-interface DailyDashProps {
-  params: { deviceId: string };
-  searchParams: { token: string };
-}
-
-export default async function DailyDash({
-  params,
-  searchParams,
-}: DailyDashProps) {
-  const userEmail = await getUserEmail();
-  if (!userEmail) {
-    return (
-      <div className="flex h-screen items-center justify-center text-white">
-        <h1 className="text-2xl">Unauthorized Access</h1>
-      </div>
-    );
-  }
+export default async function DailyDash() {
   return (
     <>
       <>
