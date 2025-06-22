@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SUBWAY_COLORS } from "@/lib/trains/trainConfig";
 import type { Station } from "@/lib/trains/utils/types";
-import { cn } from "@/lib/utils";
 
 interface TimesResponse {
   stations: Station[];
@@ -45,15 +44,15 @@ export function SubwayDisplay() {
             {stations.map((station, idx) => (
               <div key={`${station.name}-${station.direction}`}>
                 <div className="mb-2 flex items-center justify-between">
-                  <h3 className="text-sm font-medium opacity-90">
+                  <h3 className="text-[4rem] font-medium opacity-90">
                     {station.name.replace("-", " - ")}
                   </h3>
-                  <span className="text-xs capitalize opacity-70">
+                  <span className="text-[3rem] capitalize opacity-70">
                     {station.direction.toLowerCase()}
                   </span>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-8">
                   {times[idx] && times[idx].length > 0 ? (
                     times[idx]
                       .sort((a, b) => a.time - b.time)
@@ -67,11 +66,11 @@ export function SubwayDisplay() {
                                   d.line as keyof typeof SUBWAY_COLORS
                                 ],
                             }}
-                            className="flex h-6 w-6 items-center justify-center rounded-full p-0 text-xs font-medium text-white"
+                            className="flex h-16 w-16 items-center justify-center rounded-full p-0 text-[2.5rem] font-medium text-white"
                           >
                             {d.line}
                           </Badge>
-                          <span className="text-sm opacity-90">
+                          <span className="text-[4rem] opacity-90">
                             {Math.max(
                               0,
                               Math.round((d.time - Date.now() / 1000) / 60),
