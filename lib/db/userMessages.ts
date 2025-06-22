@@ -2,8 +2,9 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
   QueryCommand,
-  GetCommand,
+  PutCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { v4 as uuidv4 } from "uuid";
 import { Resource } from "sst";
 import { z } from "zod";
 
@@ -64,5 +65,46 @@ export async function listUserMessages(
     if (err instanceof MessageMalformedError) throw err;
     console.error("DynamoDB query failed", err);
     throw new MessagesReadError("Unable to load user messages");
+  }
+}
+
+export async function writeMessage({
+  userEmail,
+  content,
+  senderName,
+}: {
+  userEmail: string;
+  content: string;
+  senderName: string;
+}): Promise<UserMessage> {
+  const messageId = uuidv4();
+  const ttl = Math.floor(Date.now() / 1000) + 48 * 60 * 60; // now + 48 hours
+
+  const item: UserMessage = {
+    userEmail,
+    messageId,
+    content,
+    senderName,
+    ttl,
+  };
+
+  const validated = messageSchema.safeParse(item);
+  if (!validated.success) {
+    console.error("Message validation failed", validated.error.format());
+    throw new MessageMalformedError("Invalid message payload");
+  }
+
+  try {
+    await ddb.send(
+      new PutCommand({
+        TableName: Resource.Messages.name,
+        Item: item,
+      }),
+    );
+
+    return validated.data;
+  } catch (err) {
+    console.error("Failed to write message", err);
+    throw new MessagesReadError("Failed to write message to DynamoDB");
   }
 }

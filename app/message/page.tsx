@@ -7,29 +7,46 @@ import { Send, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 type Step = "username" | "message" | "sent";
 
 export default function SendMessagePage() {
+  const searchParams = useSearchParams();
+  const queryUsername = searchParams.get("user");
   const [step, setStep] = useState<Step>("username");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(queryUsername ?? "");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
   const handleUsernameSubmit = async () => {
-    if (!/^[a-zA-Z]{1,32}$/.test(username)) {
+    if (
+      !/^([a-zA-Z]{1,32}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(
+        username,
+      )
+    ) {
       setError(
         "Username must be 1-32 characters, no spaces or special characters.",
       );
       return;
     }
 
-    // TODO: validate username
-    const isValidUser = true;
+    // Validate username via API
+    let isValidUser = false;
+    try {
+      const res = await fetch(`api/messages/validate/${username}`);
+      if (res.ok) {
+        const data = await res.json();
+        isValidUser = !!data.userExists;
+      }
+    } catch (e) {
+      setError("Error validating username. Please try again.");
+      return;
+    }
 
     if (!isValidUser) {
-      setError("That username doesn't exist.");
+      setError("Could not find user with username: " + username);
       return;
     }
 
@@ -43,8 +60,15 @@ export default function SendMessagePage() {
       return;
     }
 
-    // TODO: Send message to backend
-    console.log({ username, message });
+    fetch(`/api/messages/${username}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    }).catch((e) => {
+      alert("Failed to send message. Please try again.");
+    });
 
     setStep("sent");
   };
@@ -89,7 +113,11 @@ export default function SendMessagePage() {
                   onChange={(e) => setUsername(e.target.value)}
                   className="border-none bg-white/90 text-sm text-black shadow-sm"
                 />
-                {error && <p className="mt-2 text-xs text-red-200">{error}</p>}
+                {error && (
+                  <p className="mt-2 rounded bg-red-100/90 px-3 py-2 text-xs font-medium text-red-700 shadow">
+                    {error}
+                  </p>
+                )}
               </div>
 
               <Button
