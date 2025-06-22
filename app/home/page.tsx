@@ -3,6 +3,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { RedirectButton } from "@/components/shared/redirectButton";
+import { Send, Settings } from "lucide-react";
 
 export default async function Home() {
   const session = await auth();
@@ -23,11 +24,13 @@ export default async function Home() {
             <RedirectButton
               label="Send a message"
               page="/message"
+              icon={<Send className="mr-2 h-5 w-5" />}
             ></RedirectButton>
 
             <RedirectButton
               label="Manage My Ollys"
               page="/devices"
+              icon={<Settings className="mr-2 h-5 w-5" />}
             ></RedirectButton>
           </div>
         </div>

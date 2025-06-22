@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { userHasDevice } from "@/lib/db/hasDevice";
 import "@/app/globals.css";
 
 const inter = Inter({
@@ -23,6 +24,9 @@ export default async function DashGuard({
   const session = await auth();
   if (!session) {
     redirect("/");
+  }
+  if (!(await userHasDevice())) {
+    redirect("/devices/notauthorized");
   }
   return <>{children}</>;
 }
