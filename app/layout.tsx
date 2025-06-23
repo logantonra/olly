@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { LoginLogout } from "@/components/layout/loginLogout";
+import { LoginLogout, BackButton } from "@/components/layout";
 import { CloudySplash } from "@/components/splash/cloudySplash";
 import { auth } from "@/auth";
 import "./globals.css";
@@ -39,6 +39,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <BackButton></BackButton>
         <LoginLogout signedin={!!session?.user} />
         <CloudySplash />
         {children}
