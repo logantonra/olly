@@ -3,6 +3,7 @@ import {
   DynamoDBDocumentClient,
   QueryCommand,
   PutCommand,
+  DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { v4 as uuidv4 } from "uuid";
 import { Resource } from "sst";
@@ -10,6 +11,7 @@ import { z } from "zod";
 
 export class MessagesNotFoundError extends Error {}
 export class MessageMalformedError extends Error {}
+export class MessageDeleteError extends Error {}
 export class MessagesReadError extends Error {}
 
 const ddb = DynamoDBDocumentClient.from(
@@ -106,5 +108,23 @@ export async function writeMessage({
   } catch (err) {
     console.error("Failed to write message", err);
     throw new MessagesReadError("Failed to write message to DynamoDB");
+  }
+}
+
+export async function deleteMessage(
+  userEmail: string,
+  messageId: string,
+): Promise<true> {
+  try {
+    await ddb.send(
+      new DeleteCommand({
+        TableName: Resource.Messages.name,
+        Key: { userEmail, messageId },
+      }),
+    );
+    return true;
+  } catch (err) {
+    console.error("Failed to delete message", err);
+    throw new MessageDeleteError("Unable to delete message in DynamoDB");
   }
 }
