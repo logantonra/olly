@@ -14,6 +14,18 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Olly daily dashboard",
   description: "A personalized display for your special someone",
+  icons: {
+    icon: [
+      { rel: "icon", url: "/favicon.svg", type: "image/svg+xml" },
+      {
+        rel: "icon",
+        url: "/favicon-96x96.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({
