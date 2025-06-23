@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function AboutOlly() {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-sky-300 via-sky-200 to-sky-100 px-6 py-10">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-sky-300 via-sky-200 to-sky-100 px-6 py-10 pt-[5rem]">
       <article className="relative z-10 w-full max-w-4xl rounded-3xl bg-blue-900/90 p-12 text-white shadow-2xl ring-4 ring-white/30 backdrop-blur-xl sm:p-16 md:p-20">
         <h1 className="mb-10 text-center text-5xl font-extrabold tracking-tight text-gray-100 drop-shadow-md">
           About&nbsp;Olly
@@ -58,10 +58,12 @@ export default async function AboutOlly() {
               >
                 AWS
               </Link>
-              .
             </li>
             <ul>
               <li>Cloudfront, Lambda, Lambda@Edge, Dynamo, s3, Route53, etc</li>
+              <li>
+                ~ 60¢ / month at low user volumes, mostly for the custom domain
+              </li>
             </ul>
             <li>
               Accessed via devices built with{" "}
