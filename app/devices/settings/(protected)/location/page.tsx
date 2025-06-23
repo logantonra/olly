@@ -5,11 +5,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { House } from "lucide-react";
-import UseMyLocation from "@/components/useMyLocation";
+import UseMyLocation from "@/components/library/useMyLocation";
 import { getUserSettings } from "@/lib/db/userPrefs";
+import { LoggedIn } from "@/lib/auth/types";
 
 export default async function LocationSettings() {
-  const session = await auth();
+  const session = (await auth()) as LoggedIn | null;
   if (!session) redirect("/");
 
   const { location = { city: "" } } =

@@ -12,8 +12,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Olly daily dashboard",
-  description: "A personalized display for your special someone",
+  title: "Olly",
+  description:
+    "Create a stunning smart dashboard using Raspberry Pi and a 1920x480 display. Show live NYC subway times, real-time weather, and rotating personal messages in a sleek, touchscreen interface. Built as a heartfelt gift, this DIY project blends utility and charm.",
   icons: {
     icon: [
       { rel: "icon", url: "/favicon.svg", type: "image/svg+xml" },

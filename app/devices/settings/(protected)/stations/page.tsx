@@ -3,15 +3,16 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserSettings } from "@/lib/db/userPrefs";
-import { StationSelector } from "@/components/stationSelector";
+import { StationSelector } from "@/components/library/stationSelector";
+import { LoggedIn } from "@/lib/auth/types";
 
 export default async function StationsSettings() {
-  const session = await auth();
+  const session = (await auth()) as LoggedIn | null;
   if (!session) redirect("/");
 
   const settings = await getUserSettings(session.user.email);
   console.log("settings in stations settings:", settings);
-  const current = settings?.stations ?? [];
+  const current = [...(settings?.stations ?? [])];
 
   return (
     <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-400 to-blue-300 px-6 text-white">

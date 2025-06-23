@@ -6,5 +6,4 @@ export interface Station {
 
 export interface StationSelectorProps {
     selectedStations: Station[];
-    setSelectedStations: (stations: Station[]) => void;
 }
