@@ -55,8 +55,8 @@ export default function SendMessagePage() {
   };
 
   const handleSend = () => {
-    if (message.length > 140) {
-      alert("Message must be 140 characters or fewer.");
+    if (message.length > 120) {
+      alert("Message must be 120 characters or fewer.");
       return;
     }
 
@@ -149,7 +149,7 @@ export default function SendMessagePage() {
                   id="message"
                   value={message}
                   placeholder="Type your message here..."
-                  maxLength={140}
+                  maxLength={120}
                   onChange={(e) => setMessage(e.target.value)}
                   className="min-h-[120px] border-none bg-white/90 text-black shadow-sm"
                 />
