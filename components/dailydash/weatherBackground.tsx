@@ -41,7 +41,16 @@ export function WeatherBackground() {
         } else {
           console.warn("Unknown theme from API:", data.theme);
         }
-        setIsNight(data.isNight);
+        const now = new Date();
+        const localHour = now.getHours();
+        console.log(localHour);
+        // Stricter night time check than just the API response
+        // TODO: make night time hours configurable
+        if (localHour >= 22 || localHour < 8) {
+          setIsNight(true);
+        } else {
+          setIsNight(data.isNight);
+        }
       }
     } catch (err) {
       console.error("Error fetching theme:", err);
@@ -54,8 +63,9 @@ export function WeatherBackground() {
     return () => clearInterval(interval);
   }, [fetchTheme]);
 
-  const backgroundClass = isNight ? "night" : weatherBackgrounds[theme];
-
+  const backgroundClass = isNight
+    ? weatherBackgrounds["night"]
+    : weatherBackgrounds[theme];
   return (
     <div className={`fixed inset-0 ${backgroundClass}`}>
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">

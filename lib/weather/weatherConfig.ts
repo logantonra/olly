@@ -10,6 +10,9 @@ import {
   CloudDrizzle,
   CloudLightning,
   CloudHail,
+  Moon,
+  MoonStar,
+  CloudMoon
 } from "lucide-react";
 import { WeatherTheme } from "@/lib/weather/utils/types"
   
@@ -44,6 +47,32 @@ export const WEATHER_ICON_MAP: Record<number, typeof Sun> = {
   0: Sun,
   1: CloudSun,
   2: CloudSun,
+  3: Cloud,
+  45: CloudFog,
+  48: CloudFog,
+  51: CloudDrizzle,
+  53: CloudDrizzle,
+  55: CloudDrizzle,
+  61: CloudRain,
+  63: CloudRain,
+  65: CloudRain,
+  66: CloudSnow,
+  67: CloudSnow,
+  71: Snowflake,
+  73: Snowflake,
+  75: CloudSnow,
+  77: CloudSnow,
+  80: Droplets,
+  81: CloudRain,
+  82: CloudRain,
+  95: CloudLightning,
+  96: CloudHail,
+  99: CloudLightning,
+};
+export const NIGHT_WEATHER_ICON_MAP: Record<number, typeof Sun> = {
+  0: MoonStar,
+  1: CloudMoon,
+  2: CloudMoon,
   3: Cloud,
   45: CloudFog,
   48: CloudFog,

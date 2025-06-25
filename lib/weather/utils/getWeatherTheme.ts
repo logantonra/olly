@@ -1,4 +1,4 @@
-import { WEATHER_CODE_MAP, WEATHER_ICON_MAP } from "@/lib/weather/weatherConfig"
+import { WEATHER_CODE_MAP, WEATHER_ICON_MAP, NIGHT_WEATHER_ICON_MAP } from "@/lib/weather/weatherConfig"
 import { softWeatherInfo } from "@/lib/weather/utils/types"
 import { Cloud } from "lucide-react";
 import { LucideIcon } from "lucide-react";
@@ -26,20 +26,23 @@ export function getWeatherInfo(code: number): softWeatherInfo {
 /**
  * Returns the appropriate Lucide icon for a given weather code.
  */
-export function getWeatherIcon(code: number): LucideIcon {
-    if (WEATHER_ICON_MAP[code]) return WEATHER_ICON_MAP[code];
+export function getWeatherIcon(code: number, isNight: boolean = false): LucideIcon {
+  
+  const MAP = isNight ? NIGHT_WEATHER_ICON_MAP : WEATHER_ICON_MAP
 
-    // fallback to nearest lower code
-    const sortedKeys = Object.keys(WEATHER_ICON_MAP)
-      .map(Number)
-      .sort((a, b) => a - b);
+  if (MAP[code]) return MAP[code];
 
-    for (let i = sortedKeys.length - 1; i >= 0; i--) {
-      if (sortedKeys[i] <= code) {
-        return WEATHER_ICON_MAP[sortedKeys[i]];
-      }
+  // fallback to nearest lower code
+  const sortedKeys = Object.keys(MAP)
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  for (let i = sortedKeys.length - 1; i >= 0; i--) {
+    if (sortedKeys[i] <= code) {
+    return MAP[sortedKeys[i]];
     }
+  }
 
-    return Cloud; // fallback icon
+  return Cloud; // fallback icon
 }
 

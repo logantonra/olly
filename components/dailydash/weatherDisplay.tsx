@@ -72,13 +72,15 @@ export function WeatherDisplay() {
 
   const code = weather?.code ?? 3;
   const WeatherIcon = getWeatherIcon(code);
+  // TODO: make this more dynamic. In a rush, ships tomorrow!
+  const night = new Set(["10pm", "12am", "2am", "4am", "6am"]);
 
   return (
     <>
       <div className="flex-1">
         <div className="flex-shrink-0">
           <div className="text-white/90">
-            <div className="mb-[-4rem] text-[12rem] font-light">
+            <div className="mb-[-4rem] text-[11rem] font-light">
               {formatTime(currentTime)}
             </div>
             <div className="mt-[-2rem] text-[3rem] font-light opacity-80">
@@ -102,10 +104,21 @@ export function WeatherDisplay() {
                 {weather.softInfo.description}
               </div>
 
-              <div className="flex justify-center gap-6">
+              <div className="flex justify-center gap-10">
                 {weather.forecast.map((h, i) => (
                   <div key={i} className="text-center">
-                    <div className="mb-1 text-[2rem] opacity-80">{h.time}</div>
+                    <div className="mb-1 text-[3rem] opacity-80">
+                      {h.time.toLowerCase()}
+                    </div>
+                    <div className="mt-2 flex justify-center">
+                      {(() => {
+                        const HourIcon = getWeatherIcon(
+                          h.code,
+                          night.has(h.time.toLowerCase()),
+                        );
+                        return <HourIcon className="h-16 w-16 opacity-80" />;
+                      })()}
+                    </div>
                     <div className="text-[3rem] font-medium">
                       {h.temperature}°
                     </div>

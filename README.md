@@ -6,13 +6,10 @@ A simple way to get a jump start on your day.
 
 **High Priority**
 
-- [ ] Build the first olly physical device
-- [ ] About page linked to login/ home
-- [ ] Back button
+- [ ] Finish building the first olly physical device
 
 **Mid Priority**
 
-- [ ] Implement message archive/ management feature
 - [ ] Implement register a new device flow/ QR code login
 - [ ] Re implement pre push linting
 

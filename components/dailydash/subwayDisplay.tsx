@@ -66,7 +66,7 @@ export function SubwayDisplay() {
                                   d.line as keyof typeof SUBWAY_COLORS
                                 ],
                             }}
-                            className="flex h-16 w-16 items-center justify-center rounded-full p-0 text-[2.5rem] font-medium text-white"
+                            className="flex h-20 w-20 items-center justify-center rounded-full p-0 text-[3rem] font-medium text-white"
                           >
                             {d.line}
                           </Badge>
