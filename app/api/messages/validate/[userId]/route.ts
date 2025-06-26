@@ -13,7 +13,7 @@ export async function GET(
   }
   const { userId } = params;
   // TODO: add nickname/ username feature that users can set
-  let cleanuserId = userId.replace(/\s+/g, "").replace(/[^a-zA-Z0-9@.]/g, "");
+  let cleanuserId = userId.replace(/\s+/g, "").replace(/[^a-zA-Z0-9@.]/g, "").toLowerCase();
   if (!cleanuserId.endsWith("@gmail.com")) {
     cleanuserId += "@gmail.com";
   }

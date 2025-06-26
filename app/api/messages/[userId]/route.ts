@@ -14,7 +14,7 @@ export async function POST(
 
   const { userId } = params;
 
-  let cleanUserEmail = userId.replace(/\s+/g, "").replace(/[^a-zA-Z0-9@.]/g, "");
+  let cleanUserEmail = userId.replace(/\s+/g, "").replace(/[^a-zA-Z0-9@.]/g, "").toLowerCase();
   if (!cleanUserEmail.endsWith("@gmail.com")) {
     cleanUserEmail += "@gmail.com";
   }

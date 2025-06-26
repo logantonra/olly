@@ -15,6 +15,7 @@ declare module "sst" {
     }
     "DailyDash": {
       "type": "sst.aws.Nextjs"
+      "url": string
     }
     "Devices": {
       "name": string
